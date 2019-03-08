@@ -1,0 +1,61 @@
+{
+Example for POT2 Click
+
+    Date          : okt 2018.
+    Author        : Katarina Perendic
+
+Test configuration KINETIS :
+    
+    MCU              : MK64
+    Dev. Board       : HEXIWEAR
+    ARM Compiler ver : v6.0.0.0
+
+---
+
+Description :
+
+The application is composed of three sections :
+
+- System Initialization - Initializes LOG to print data that is read from ADC
+- Application Initialization - Initialization ADC Init and sets ADC input channel
+- Application Task - (code snippet) - Reads data from ADC and logs data to USBUART every 500 ms.
+
+}
+program Click_POT2_KINETIS;
+
+uses Click_POT2_types, Click_POT2_config, Click_POT2_adc;
+
+procedure systemInit(); 
+begin
+    mikrobus_logInit(_LOG_USBUART, 9600); 
+    Delay_ms(100); 
+end;
+
+procedure applicationInit(); 
+begin
+    pot2_adcSetInputChannel(); 
+    pot2_adcInit(); 
+    Delay_100ms(); 
+end;
+
+procedure applicationTask(); 
+var
+    ADC_value : uint16_t; 
+    demoText : array[50] of char; 
+begin
+    ADC_value := pot2_adcRead(); 
+    WordToHex(ADC_value, demoText); 
+    mikrobus_logWrite(' ADC value: 0x', _LOG_TEXT); 
+    mikrobus_logWrite(demoText, _LOG_LINE); 
+    Delay_ms(500); 
+end;
+
+begin
+
+    systemInit(); 
+    applicationInit(); 
+    while (1) do 
+    begin 
+        applicationTask(); 
+    end;
+end.

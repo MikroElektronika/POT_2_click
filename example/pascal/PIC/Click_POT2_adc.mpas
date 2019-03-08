@@ -1,0 +1,27 @@
+unit Click_POT2_adc;
+
+uses Click_POT2_types;
+
+procedure pot2_adcInit(); 
+procedure pot2_adcSetInputChannel(); 
+function  pot2_adcRead() :  uint32_t; 
+
+implementation
+
+procedure pot2_adcInit(); 
+begin
+end;
+
+procedure pot2_adcSetInputChannel(); 
+begin
+end;
+
+function  pot2_adcRead() :  uint32_t; 
+var
+    adcData : uint32_t; 
+begin
+    adcData := ADC_Read(0); 
+    result := adcData; 
+end;
+
+end.

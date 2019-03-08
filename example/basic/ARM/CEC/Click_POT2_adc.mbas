@@ -1,0 +1,26 @@
+module Click_POT2_adc
+
+include Click_POT2_types
+sub procedure pot2_adcInit() 
+sub procedure pot2_adcSetInputChannel() 
+sub function  pot2_adcRead() as uint32_t 
+
+implements
+
+sub procedure pot2_adcInit() 
+    ADC1_Init() 
+end sub
+
+sub procedure pot2_adcSetInputChannel() 
+    ADC1_Set_Input_Channel(0x01) 
+end sub
+
+sub function  pot2_adcRead() as uint32_t 
+dim
+    adcData as uint32_t 
+
+    adcData = ADC1_Read(1) 
+    result = adcData 
+end sub
+
+end.

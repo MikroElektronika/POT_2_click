@@ -1,0 +1,59 @@
+'
+'Example for POT2 Click
+'
+'    Date          : okt 2018.
+'    Author        : Katarina Perendic
+'
+'Test configuration PIC :
+'    
+'    MCU             : P18F87K22
+'    Dev. Board      : EasyPIC PRO v7
+'    PIC Compiler ver : v7.2.0.0
+'
+'---
+'
+'Description :
+'
+'The application is composed of three sections :
+'
+'- System Initialization - Initializes LOG to print data that is read from ADC
+'- Application Initialization - Initialization ADC Init and sets ADC input channel
+'- Application Task - (code snippet) - Reads data from ADC and logs data to USBUART every 500 ms.
+'
+'
+program Click_POT2_PIC
+
+include Click_POT2_types
+include Click_POT2_config
+include Click_POT2_adc
+sub procedure systemInit() 
+    mikrobus_logInit(_LOG_USBUART, 9600) 
+    Delay_ms(100) 
+end sub
+
+sub procedure applicationInit() 
+    pot2_adcSetInputChannel() 
+    pot2_adcInit() 
+    Delay_100ms() 
+end sub
+
+sub procedure applicationTask() 
+dim
+    ADC_value as uint16_t 
+    demoText as char[50] 
+
+    ADC_value = pot2_adcRead() 
+    WordToHex(ADC_value, demoText) 
+    mikrobus_logWrite(" ADC value: 0x", _LOG_TEXT) 
+    mikrobus_logWrite(demoText, _LOG_LINE) 
+    Delay_ms(500) 
+end sub
+
+main :
+
+    systemInit() 
+    applicationInit() 
+    while (1) 
+        applicationTask() 
+    wend
+end.

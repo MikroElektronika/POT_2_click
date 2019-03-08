@@ -1,0 +1,5 @@
+unit Click_POT2_config;
+
+uses Click_POT2_types;
+
+end.
